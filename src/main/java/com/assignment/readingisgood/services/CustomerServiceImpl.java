@@ -19,8 +19,9 @@ public class CustomerServiceImpl implements CustomerServices{
 
     @Override
     public String addCustomer(Customer customer) throws UserAlreadyExist {
-//        if(customerRepository.getCustomerByEmailId(customer.getEmail_id())>0)
-//            throw new UserAlreadyExist("User already exist with Email Id:"+ customer.getEmail_id());
+        int val = customerRepository.getCustomerByEmailId(customer.getEmail_id());
+        if(val > 0)
+            throw new UserAlreadyExist("User already exist with Email Id:"+ customer.getEmail_id());
         customer.setId(UUID.randomUUID().toString().substring(0,30));
         customerRepository.save(customer);
         //customerRepository.saveQ(customer.getEmail_id(),customer.getMobile_no(),customer.getName(),customer.getId());
