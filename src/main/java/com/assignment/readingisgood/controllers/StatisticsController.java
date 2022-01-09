@@ -1,27 +1,30 @@
 package com.assignment.readingisgood.controllers;
 
-import com.assignment.readingisgood.exceptions.BookAlreadyPresent;
-import com.assignment.readingisgood.exceptions.InvalidQuantity;
-import com.assignment.readingisgood.models.Book;
-import com.assignment.readingisgood.models.BookResponse;
-import com.assignment.readingisgood.models.OrderResponse;
+import com.assignment.readingisgood.models.CustomerResponse;
+import com.assignment.readingisgood.models.Statistics;
+import com.assignment.readingisgood.services.StatisticsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class StatisticsController {
-//    @RequestMapping(value = "/statistics/filter={customerId}&{year}",method = RequestMethod.GET)
-//    @ResponseBody
-//    public BookResponse getStatistics(@PathVariable String customerId, @PathVariable String year) {
-//        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        Date startDate;
-//        Date endDate;
-//        OrderResponse orderResponse;
-//        try {
-//            startDate = format.parse(sDate);
-//            endDate = format.parse(eDate);
-//    }
+
+    @Autowired
+    private StatisticsService statisticsService;
+
+    @RequestMapping(value = "/statistics/filter={customerId}&{year}",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Statistics> getStatistics(@PathVariable String customerId, @PathVariable String year) {
+        try {
+            return statisticsService.getStats(year, customerId);
+        }catch(Exception e) {
+            new CustomerResponse("Error occured: ",e.getMessage());
+        }
+        return null;
+    }
 }

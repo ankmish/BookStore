@@ -44,7 +44,7 @@ public class OrderService {
             for(BookQuantity b:bookList){
                 Book book = bookService.getBook(b.getBookId());
                 price += book.getPrice()*b.getQuantity();
-                bookService.reduceQuantity(b.getBookId(),b.getQuantity());
+                bookService.updateQuantity(b.getBookId(),b.getQuantity());
             }
             String order_id = UUID.randomUUID().toString();
             Order order = new Order(order_id,orderRequest.getCustomer_id(), new Date(),bookList,price);
