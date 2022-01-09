@@ -3,14 +3,13 @@ package com.assignment.readingisgood.controllers;
 import com.assignment.readingisgood.exceptions.BookAlreadyPresent;
 import com.assignment.readingisgood.exceptions.BookNotFound;
 import com.assignment.readingisgood.exceptions.InvalidQuantity;
+import com.assignment.readingisgood.exceptions.OutOfStockException;
 import com.assignment.readingisgood.models.Book;
 import com.assignment.readingisgood.models.BookQuantity;
 import com.assignment.readingisgood.models.BookResponse;
 import com.assignment.readingisgood.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class BookController {
@@ -23,7 +22,7 @@ public class BookController {
         try{
             BookQuantity bookQuantity = bookService.updateQuantity(bookId,quantity);
             return new BookResponse("Success",bookQuantity);
-        } catch (BookNotFound | InvalidQuantity exception) {
+        } catch (BookNotFound | InvalidQuantity | OutOfStockException exception) {
             return new BookResponse("Fail",exception.getMessage());
         }
     }
